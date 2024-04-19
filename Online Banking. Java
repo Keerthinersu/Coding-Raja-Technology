@@ -1,0 +1,166 @@
+import java.util.*;
+
+// Account class
+class Account {
+    private int accountId;
+    private String accountType;
+    private double balance;
+
+    // Constructor
+    public Account(int accountId, String accountType, double balance) {
+        this.accountId = accountId;
+        this.accountType = accountType;
+        this.balance = balance;
+    }
+
+    // Getters and setters
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    // Method to deposit funds
+    public void deposit(double amount) {
+        balance += amount;
+    }
+
+    // Method to withdraw funds
+    public void withdraw(double amount) {
+        balance -= amount;
+    }
+}
+
+// Transaction class
+class Transaction {
+    private int transactionId;
+    private Date date;
+    private String type;
+    private double amount;
+
+    // Constructor
+    public Transaction(int transactionId, Date date, String type, double amount) {
+        this.transactionId = transactionId;
+        this.date = date;
+        this.type = type;
+        this.amount = amount;
+    }
+
+    // Getters
+    // Setters
+}
+
+// User class
+class User {
+    private String username;
+    private String password;
+    private int pin;
+    private List<Account> accounts;
+    private List<Transaction> transactions;
+
+    // Constructor
+    public User(String username, String password, int pin) {
+        this.username = username;
+        this.password = password;
+        this.pin = pin;
+        this.accounts = new ArrayList<>();
+        this.transactions = new ArrayList<>();
+    }
+
+    // Getters and setters
+    // Method to add account
+    public void addAccount(Account account) {
+        accounts.add(account);
+    }
+
+    // Method to remove account
+    public void removeAccount(Account account) {
+        accounts.remove(account);
+    }
+
+    // Method to add transaction
+    public void addTransaction(Transaction transaction) {
+        transactions.add(transaction);
+    }
+
+    // Method to display account balances
+    public void displayAccountBalances() {
+        for (Account account : accounts) {
+            System.out.println("Account ID: " + account.getAccountId());
+            System.out.println("Account Type: " + account.getAccountType());
+            System.out.println("Balance: " + account.getBalance());
+            System.out.println("-----------------------");
+        }
+    }
+}
+
+// BankingSystem class
+public class BankingSystem {
+    private List<User> users;
+    private int nextUserId;
+
+    // Constructor
+    public BankingSystem() {
+        this.users = new ArrayList<>();
+        this.nextUserId = 1;
+    }
+
+    // Method to add new user
+    public void addUser(String username, String password, int pin) {
+        users.add(new User(username, password, pin));
+    }
+
+    // Method to authenticate user
+    public boolean authenticateUser(String username, String password) {
+        for (User user : users) {
+            if (user.username.equals(username) && user.password.equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Method to find user by username
+    private User findUserByUsername(String username) {
+        for (User user : users) {
+            if (user.username.equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        BankingSystem bankingSystem = new BankingSystem();
+
+        // Add some users
+        bankingSystem.addUser("user1", "password1", 1234);
+        bankingSystem.addUser("user2", "password2", 5678);
+
+        // Authenticate user
+        String username = "user1";
+        String password = "password1";
+        if (bankingSystem.authenticateUser(username, password)) {
+            User user = bankingSystem.findUserByUsername(username);
+            if (user != null) {
+                // Display account balances
+                user.displayAccountBalances();
+            } else {
+                System.out.println("User not found!");
+            }
+        } else {
+            System.out.println("Authentication failed!");
+        }
+    }
+}
